@@ -4,7 +4,7 @@ simple social media platform.
 To be honest it will be my first experience with Artillery tool, but lets try:
 
 Based on data,
-**Here I have to say that these kind of statistics is not enough to do smart performance tests. We should know more from access logs/databases if your platform performs in production. First of all out proportion should be clear. But lets make it simple and imagine that we have only business predictions without numbers.**⋅⋅
+**Here I have to say that these kind of statistics is not enough to do smart performance tests. We should know more from access logs/databases if your platform performs in production. First of all out proportion should be clear. But lets make it simple and imagine that we have only business predictions without numbers.**
 
 Posts between [1-100] we know that almost all of our user activity is based on reading lists of comments on posts.
 **80%  GET  https://jsonplaceholder.typicode.com/posts/[1-100]/comments.**
@@ -39,3 +39,8 @@ Most important in my oppinion:
 **Response time per diffrent percentiles(http.response_time)** - The most important, response time's affect on quality of service. It should be fast.
 **Request rate (http.request_rate)** - Shows to us how our workload is going, correct as expected or not.
 Unfortunatelly I didn't find in Artillery **APDEX** metric, which could be useful when we try to compare diffrent releases and make conclusion about quality of service on long time interval.
+
+# Additions
+Tried to run artillery via GithubActions - https://github.com/artilleryio/artillery/issues/1394 this bug has been stolen lots of debug time :)
+In the end of the day I finished with running scenarious in GithubActions - available here https://github.com/eszhlznkv/SocialMPLoad/actions
+Reports will be ready in reports folder
