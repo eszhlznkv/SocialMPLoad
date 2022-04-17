@@ -17,11 +17,22 @@ before they go to the specific one.
 ## Types of tests
 Then we need to do some scenarios. In my opinion in this "foggy" task we have to use 3 basic types of tests to verify out platform:
 ### Max performance
+![alt text](https://github.com/eszhlznkv/SocialMPLoad/blob/master/png/maxperf.png "maxperf")
+The most frequent type of tests. We startet from scratch and increase load by stairs and trying to find critical performance level
 ### Reliability
+![alt text](https://github.com/eszhlznkv/SocialMPLoad/blob/master/png/reliability.png "reliability")
+We startet from scratch and increase load to high rate, but less then in maxperf level and leave system under that load for long time. In this way we can find a lot of diffrent leaks.
 ### Spike test
-
+![alt text](https://github.com/eszhlznkv/SocialMPLoad/blob/master/png/spike.png "spike")
+This test shows us how we can use our service during high spike of rates. Frequent pattern especially when product has agressive marketing via pushes or sms'es.
 ### Ideal test process schema
-![alt text](https://github.com/eszhlznkv/SocialMPLoad/blob/master/Schema.png "Schema")
+My viewpoint of schema about organizing stable, repeated tests execution
+![alt text](https://github.com/eszhlznkv/SocialMPLoad/blob/master/png/Schema.png "Schema")
 
 # Problem 2
-
+Without access to logs, server metrics and source code it's only possible to rely on artillery's metrics.
+Most important in my oppinion:
+**Error count** - our API should work correct and expect blocks have to provide that checks
+**Response time per diffrent percentiles(http.response_time)** - The most important, response time's affect on quality of service. It should be fast.
+**Request rate (http.request_rate)** - Shows to us how our workload is going, correct as expected or not
+Unfortunatelly I didn't find in Artillery **APDEX** metric, which could be useful when we try to compare diffrent releases and make conclusion about quality of service on long time interval.
