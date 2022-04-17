@@ -14,3 +14,20 @@ scenarios:
         - equals: # post_id exists and correct at least of first element
           - "{{ post_id }}"
           - "{{ id }}"
+
+  - name: "POST /posts/[1-100]/comments"
+  - weight: 1
+  - flow:
+    - post:
+        url: "/posts/{{ id }}/comments"
+        json:
+          name: "{{ $randomString() }}"
+          email: "{{ $randomString() }}@mail.ru"
+          body: "{{ $randomString() }}"
+        capture:
+          json: "$postId"
+          as: "post_id"
+        expect:
+        - contentType: application/json; charset=utf-8
+        - statusCode: 201
+        - matchesRegexp: .+ # body is not empty
