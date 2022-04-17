@@ -4,6 +4,7 @@ config:
     - duration: 900
       arrivalRate: 1
       rampTo: 10
+      maxVusers: 10
       name: "max_performance_phase"
   environments:
     reliability_test:
@@ -11,10 +12,12 @@ config:
       phases:
       - duration: 300
         arrivalRate: 1
+        maxVusers: 10
         rampTo: 10
         name: "warm_up_phase"
       - duration: 600
         arrivalRate: 10
+        maxVusers: 10
         name: "holdload"
     spike_test:
       target: "https://jsonplaceholder.typicode.com"
@@ -22,17 +25,20 @@ config:
       - duration: 100
         arrivalRate: 1
         rampTo: 5
+        maxVusers: 10
         name: "warm_up_phase"
       - duration: 100
         arrivalRate: 10
+        maxVusers: 10
         name: "spike"
       - duration: 100
         arrivalRate: 5
+        maxVusers: 10
         name: "go_down_phase"
     debug_test:
       target: "https://jsonplaceholder.typicode.com"
       phases:
-      - duration: 70
+      - duration: 10
         arrivalRate: 1
         rampTo: 10
         name: "debug"
@@ -44,4 +50,5 @@ config:
     expect: {}
   ensure:
     p95: 1000
+    p99: 2000
     maxErrorRate: 1
