@@ -1,6 +1,6 @@
 scenarios:
   - name: "GET /posts/[1-100]/comments"
-  - weight: 1
+  - weight: 8
   - flow:
     - get:
         url: "/posts/{{ id }}/comments"
@@ -20,10 +20,31 @@ scenarios:
   - flow:
     - post:
         url: "/posts/{{ id }}/comments"
+        headers:
+          Content-Type: "application/json; charset=UTF-8"
         json:
           name: "{{ $randomString() }}"
           email: "{{ $randomString() }}@mail.ru"
           body: "{{ $randomString() }}"
+        capture:
+          json: "$name"
+          as: "name"
+        expect:
+        - contentType: application/json; charset=utf-8
+        - statusCode: 201
+        - matchesRegexp: .+ # body is not empty
+
+  - name: "POST /posts/"
+  - weight: 0.5
+  - flow:
+    - post:
+        url: "/posts"
+        headers:
+          Content-Type: "application/json; charset=UTF-8"
+        json:
+          title: "{{ $randomString() }}"
+          body: "{{ $randomString() }}"
+          userId: "{{ $randomNumber(1,10000) }}"
         capture:
           json: "$postId"
           as: "post_id"
@@ -31,3 +52,33 @@ scenarios:
         - contentType: application/json; charset=utf-8
         - statusCode: 201
         - matchesRegexp: .+ # body is not empty
+
+  - name: "Chain: GET posts —> GET /posts/[1-100]"
+  - weight: 0.5
+  - flow:
+    - get:
+        url: "/posts"
+        headers:
+          Content-Type: "application/json; charset=UTF-8"
+        capture:
+          json: "$[:].id"
+          as: "post_id"
+        expect:
+        - contentType: application/json; charset=utf-8
+        - statusCode: 200
+        - matchesRegexp: .+ # body is not empty
+    - log: "Chosen post : {{ post_id }}"
+    - get: 
+        url: "/posts/{{ post_id }}"
+        headers:
+          Content-Type: "application/json; charset=UTF-8"
+        capture:
+          json: "$.id"
+          as: "single_post_id"
+        expect:
+        - contentType: application/json; charset=utf-8
+        - statusCode: 200
+        - matchesRegexp: .+ # body is not empty
+        - equals: # verification
+          - "{{ single_post_id }}"
+          - "{{ post_id }}"

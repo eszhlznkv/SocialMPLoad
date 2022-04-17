@@ -32,9 +32,9 @@ config:
     debug_test:
       target: "https://jsonplaceholder.typicode.com"
       phases:
-      - duration: 5
+      - duration: 70
         arrivalRate: 1
-        rampTo: 3
+        rampTo: 10
         name: "debug"
   payload:
     - path: "id.csv"
@@ -43,5 +43,5 @@ config:
   plugins:
     expect: {}
   ensure:
-    p95: 200
+    p95: 1000
     maxErrorRate: 1
