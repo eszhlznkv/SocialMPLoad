@@ -1,6 +1,6 @@
 scenarios:
   - name: "GET /posts/[1-100]/comments"
-  - weight: 8
+  - weight: 16
   - flow:
     - get:
         url: "/posts/{{ id }}/comments"
@@ -16,7 +16,7 @@ scenarios:
           - "{{ id }}"
 
   - name: "POST /posts/[1-100]/comments"
-  - weight: 1
+  - weight: 2
   - flow:
     - post:
         url: "/posts/{{ id }}/comments"
@@ -35,7 +35,7 @@ scenarios:
         - matchesRegexp: .+ # body is not empty
 
   - name: "POST /posts/"
-  - weight: 0.5
+  - weight: 1
   - flow:
     - post:
         url: "/posts"
@@ -54,7 +54,7 @@ scenarios:
         - matchesRegexp: .+ # body is not empty
 
   - name: "Chain: GET posts —> GET /posts/[1-100]"
-  - weight: 0.5
+  - weight: 1
   - flow:
     - get:
         url: "/posts"
