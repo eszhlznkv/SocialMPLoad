@@ -1,0 +1,1 @@
+DEBUG=http:request,http:response artillery run --config config.yaml -e debug_test scenario_social.yaml

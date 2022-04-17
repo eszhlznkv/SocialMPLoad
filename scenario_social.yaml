@@ -1,42 +1,16 @@
-config:
-  target: "https://jsonplaceholder.typicode.com"
-  phases:
-    - duration: 900
-      arrivalRate: 1
-      rampTo: 10
-      name: "max_performance_phase"
-  environments:
-    reliability_test:
-      target: "https://jsonplaceholder.typicode.com"
-      phases:
-      - duration: 300
-        arrivalRate: 1
-        rampTo: 10
-        name: "warm_up_phase"
-      - duration: 600
-        arrivalRate: 10
-        name: "holdload"
-    spike_test:
-      target: "https://jsonplaceholder.typicode.com"
-      phases:
-      - duration: 100
-        arrivalRate: 1
-        rampTo: 5
-        name: "warm_up_phase"
-      - duration: 100
-        arrivalRate: 10
-        name: "spike"
-      - duration: 100
-        arrivalRate: 5
-        name: "go_down_phase"
-  payload:
-    - path: "./id.csv"
-      fields:
-        - id
 scenarios:
+  - name: "GET /posts/[1-100]/comments"
+  - weight: 1
   - flow:
-      - loop:
-        - get:
-            url: "{{ url }}"
-        - think: 1
-        count: 100
+    - get:
+        url: "/posts/{{ id }}/comments"
+        capture:
+          json: "$[0].postId"
+          as: "post_id"
+        expect:
+        - contentType: application/json; charset=utf-8
+        - statusCode: 200
+        - matchesRegexp: .+ # body is not empty
+        - equals: # post_id exists and correct at least of first element
+          - "{{ post_id }}"
+          - "{{ id }}"
