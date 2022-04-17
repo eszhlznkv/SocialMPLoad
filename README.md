@@ -43,4 +43,4 @@ Unfortunatelly I didn't find in Artillery **APDEX** metric, which could be usefu
 # Additions
 Tried to run artillery via GithubActions - https://github.com/artilleryio/artillery/issues/1394 this bug has been stolen lots of debug time :)
 In the end of the day I finished with running scenarious in GithubActions - available here https://github.com/eszhlznkv/SocialMPLoad/actions
-Reports will be ready in reports folder
+Reports will be ready in runs artifacts

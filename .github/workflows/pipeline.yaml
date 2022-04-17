@@ -23,19 +23,19 @@ jobs:
         run: /home/node/artillery/bin/run run --output reports/mpreport.json --config config.yaml scenario_social.yaml
 
       - name: Generate HTML report max_performance_phase
-        run: /home/node/artillery/bin/run report --output reports/report reports/mpreport.json
+        run: /home/node/artillery/bin/run report --output reports/reportmp.html reports/mpreport.json
 
       - name: Execute reliability_test
         run: /home/node/artillery/bin/run run --output reports/relreport.json --config config.yaml -e reliability_test scenario_social.yaml
 
       - name: Generate HTML report reliability_test
-        run: /home/node/artillery/bin/run report --output reports/report reports/relreport.json
+        run: /home/node/artillery/bin/run report --output reports/reportrely.html reports/relreport.json
 
       - name: Execute spike_test
         run: /home/node/artillery/bin/run run --output reports/spreport.json --config config.yaml -e spike_test scenario_social.yaml
 
       - name: Generate HTML report spike_test
-        run: /home/node/artillery/bin/run report --output reports/report  reports/spreport.json
+        run: /home/node/artillery/bin/run report --output reports/reportsp.html  reports/spreport.json
 
       - name: Archive test report
         uses: actions/upload-artifact@v2
